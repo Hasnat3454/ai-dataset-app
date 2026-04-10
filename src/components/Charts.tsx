@@ -28,7 +28,7 @@ function CustomTooltip({ active, payload, label }: any) {
 
 export default function Charts() {
   return (
-    <section className="max-w-7xl mx-auto px-6 pb-10">
+    <section className="max-w-7xl mx-auto px-4 sm:px-6 pb-10">
       <motion.div
         initial={{ opacity: 0, y: 20 }}
         animate={{ opacity: 1, y: 0 }}
@@ -38,7 +38,7 @@ export default function Charts() {
         <div className="glass rounded-2xl border border-[#1c1c35] p-6">
           <h3 className="text-sm font-semibold text-slate-300 mb-1">Datasets by Release Year</h3>
           <p className="text-xs text-slate-500 mb-5">Growth of influential AI datasets over time</p>
-          <ResponsiveContainer width="100%" height={200}>
+          <ResponsiveContainer width="100%" height={180}>
             <BarChart data={yearData} barSize={14}>
               <defs>
                 <linearGradient id={barGradientId} x1="0" y1="0" x2="0" y2="1">

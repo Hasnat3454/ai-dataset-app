@@ -43,13 +43,13 @@ export default function SearchFilter({
   }
 
   return (
-    <div className="max-w-7xl mx-auto px-6 pb-8 space-y-4">
+    <div className="max-w-7xl mx-auto px-4 sm:px-6 pb-8 space-y-4">
       <div className="flex flex-col sm:flex-row gap-3">
         <div className="relative flex-1">
           <Search size={15} className="absolute left-3.5 top-1/2 -translate-y-1/2 text-slate-500" />
           <input
             type="text"
-            placeholder="Search datasets, creators, descriptions…"
+            placeholder="Search datasets, creators…"
             value={query}
             onChange={e => onQuery(e.target.value)}
             className="w-full bg-[#0e0e1c] border border-[#1c1c35] rounded-xl pl-9 pr-4 py-2.5 text-sm text-slate-200 placeholder-slate-600 focus:outline-none focus:border-indigo-500/50 focus:bg-[#10102a] transition-all"
@@ -61,15 +61,15 @@ export default function SearchFilter({
           )}
         </div>
 
-        <div className="flex items-center gap-2">
+        <div className="flex items-center gap-2 overflow-x-auto pb-0.5">
           <SlidersHorizontal size={14} className="text-slate-500 shrink-0" />
-          <div className="flex rounded-xl overflow-hidden border border-[#1c1c35]">
+          <div className="flex rounded-xl overflow-hidden border border-[#1c1c35] shrink-0">
             {SORT_OPTIONS.map(opt => (
               <button
                 key={opt.value}
                 onClick={() => onSort(opt.value)}
                 className={clsx(
-                  'px-3 py-2 text-xs transition-colors',
+                  'px-3 py-2 text-xs transition-colors whitespace-nowrap',
                   sort === opt.value
                     ? 'bg-indigo-600 text-white'
                     : 'bg-[#0e0e1c] text-slate-500 hover:text-slate-300 hover:bg-[#13132a]'
@@ -84,7 +84,7 @@ export default function SearchFilter({
 
       <div className="space-y-2">
         <div className="flex flex-wrap gap-1.5 items-center">
-          <span className="text-[11px] text-slate-600 uppercase tracking-wider mr-1">Format</span>
+          <span className="text-[11px] text-slate-600 uppercase tracking-wider mr-1 shrink-0">Format</span>
           {allFormats.map(fmt => (
             <button
               key={fmt}
@@ -102,7 +102,7 @@ export default function SearchFilter({
         </div>
 
         <div className="flex flex-wrap gap-1.5 items-center">
-          <span className="text-[11px] text-slate-600 uppercase tracking-wider mr-1">Licence</span>
+          <span className="text-[11px] text-slate-600 uppercase tracking-wider mr-1 shrink-0">Licence</span>
           {allLicences.map(lic => (
             <button
               key={lic}

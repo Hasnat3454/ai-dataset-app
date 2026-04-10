@@ -77,7 +77,7 @@ export default function Explorer() {
         resultCount={results.length}
       />
 
-      <div className="max-w-7xl mx-auto px-6 pb-20">
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 pb-20">
         {results.length === 0 ? (
           <div className="text-center py-20 text-slate-500">
             <div className="text-4xl mb-3">🔍</div>
