@@ -1,4 +1,4 @@
-import { Github, ExternalLink } from 'lucide-react'
+import { ExternalLink } from 'lucide-react'
 
 export default function Footer() {
   return (
@@ -9,10 +9,6 @@ export default function Footer() {
           <span>AI Datasets Explorer — built on the Geo Knowledge Graph</span>
         </div>
         <div className="flex items-center gap-5">
-          <a href="https://github.com/Hasnat3454/curator-sdk" target="_blank" rel="noreferrer"
-            className="flex items-center gap-1.5 hover:text-slate-400 transition-colors">
-            <Github size={12} /> Curator SDK
-          </a>
           <a href="https://geobrowser.io" target="_blank" rel="noreferrer"
             className="flex items-center gap-1.5 hover:text-slate-400 transition-colors">
             <ExternalLink size={12} /> GeoBrowser

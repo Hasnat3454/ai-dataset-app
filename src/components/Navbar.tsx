@@ -1,7 +1,7 @@
 'use client'
 
 import { motion } from 'framer-motion'
-import { Github, ExternalLink } from 'lucide-react'
+import { ExternalLink } from 'lucide-react'
 
 export default function Navbar() {
   return (
@@ -33,15 +33,6 @@ export default function Navbar() {
           >
             <ExternalLink size={13} />
             GeoBrowser
-          </a>
-          <a
-            href="https://github.com/Hasnat3454/curator-sdk"
-            target="_blank"
-            rel="noreferrer"
-            className="flex items-center gap-1.5 text-xs text-slate-400 hover:text-slate-200 transition-colors"
-          >
-            <Github size={13} />
-            <span className="hidden xs:inline">SDK</span>
           </a>
         </div>
       </div>
