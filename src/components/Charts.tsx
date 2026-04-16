@@ -5,16 +5,15 @@ import {
   BarChart, Bar, XAxis, YAxis, Tooltip, ResponsiveContainer,
   PieChart, Pie, Cell, Legend,
 } from 'recharts'
-import { getYearDistribution, getFormatDistribution } from '@/lib/datasets'
 
-const yearData = getYearDistribution()
-const formatData = getFormatDistribution()
+interface Props {
+  yearData:   { year: string; count: number }[]
+  formatData: { name: string; value: number }[]
+}
 
 const FORMAT_COLORS = [
   '#6366f1', '#8b5cf6', '#a855f7', '#7c3aed', '#818cf8', '#a78bfa', '#c4b5fd',
 ]
-
-const barGradientId = 'barGradient'
 
 function CustomTooltip({ active, payload, label }: any) {
   if (!active || !payload?.length) return null
@@ -26,7 +25,7 @@ function CustomTooltip({ active, payload, label }: any) {
   )
 }
 
-export default function Charts() {
+export default function Charts({ yearData, formatData }: Props) {
   return (
     <section className="max-w-7xl mx-auto px-4 sm:px-6 pb-10">
       <motion.div
@@ -41,26 +40,15 @@ export default function Charts() {
           <ResponsiveContainer width="100%" height={180}>
             <BarChart data={yearData} barSize={14}>
               <defs>
-                <linearGradient id={barGradientId} x1="0" y1="0" x2="0" y2="1">
+                <linearGradient id="barGradient" x1="0" y1="0" x2="0" y2="1">
                   <stop offset="0%" stopColor="#6366f1" />
                   <stop offset="100%" stopColor="#8b5cf6" />
                 </linearGradient>
               </defs>
-              <XAxis
-                dataKey="year"
-                tick={{ fill: '#64748b', fontSize: 10 }}
-                axisLine={false}
-                tickLine={false}
-                interval={2}
-              />
-              <YAxis
-                tick={{ fill: '#64748b', fontSize: 10 }}
-                axisLine={false}
-                tickLine={false}
-                width={20}
-              />
+              <XAxis dataKey="year" tick={{ fill: '#64748b', fontSize: 10 }} axisLine={false} tickLine={false} interval={2} />
+              <YAxis tick={{ fill: '#64748b', fontSize: 10 }} axisLine={false} tickLine={false} width={20} />
               <Tooltip content={<CustomTooltip />} cursor={{ fill: 'rgba(99,102,241,0.05)' }} />
-              <Bar dataKey="count" fill={`url(#${barGradientId})`} radius={[4, 4, 0, 0]} />
+              <Bar dataKey="count" fill="url(#barGradient)" radius={[4, 4, 0, 0]} />
             </BarChart>
           </ResponsiveContainer>
         </div>
@@ -68,31 +56,21 @@ export default function Charts() {
         <div className="glass rounded-2xl border border-[#1c1c35] p-6">
           <h3 className="text-sm font-semibold text-slate-300 mb-1">Top Data Formats</h3>
           <p className="text-xs text-slate-500 mb-3">Distribution of formats across all datasets</p>
-          <ResponsiveContainer width="100%" height={210}>
-            <PieChart>
-              <Pie
-                data={formatData}
-                cx="50%"
-                cy="50%"
-                innerRadius={55}
-                outerRadius={85}
-                paddingAngle={3}
-                dataKey="value"
-              >
-                {formatData.map((_, i) => (
-                  <Cell key={i} fill={FORMAT_COLORS[i % FORMAT_COLORS.length]} stroke="transparent" />
-                ))}
-              </Pie>
-              <Tooltip content={<CustomTooltip />} />
-              <Legend
-                formatter={(value) => (
-                  <span style={{ color: '#94a3b8', fontSize: '11px' }}>{value}</span>
-                )}
-                iconSize={8}
-                iconType="circle"
-              />
-            </PieChart>
-          </ResponsiveContainer>
+          {formatData.length > 0 ? (
+            <ResponsiveContainer width="100%" height={210}>
+              <PieChart>
+                <Pie data={formatData} cx="50%" cy="50%" innerRadius={55} outerRadius={85} paddingAngle={3} dataKey="value">
+                  {formatData.map((_, i) => (
+                    <Cell key={i} fill={FORMAT_COLORS[i % FORMAT_COLORS.length]} stroke="transparent" />
+                  ))}
+                </Pie>
+                <Tooltip content={<CustomTooltip />} />
+                <Legend formatter={(v) => <span style={{ color: '#94a3b8', fontSize: '11px' }}>{v}</span>} iconSize={8} iconType="circle" />
+              </PieChart>
+            </ResponsiveContainer>
+          ) : (
+            <div className="h-[210px] flex items-center justify-center text-slate-600 text-sm">No format data available</div>
+          )}
         </div>
       </motion.div>
     </section>

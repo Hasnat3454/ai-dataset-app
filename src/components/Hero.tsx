@@ -2,8 +2,19 @@
 
 import { useEffect, useRef, useState } from 'react'
 import { motion } from 'framer-motion'
-import { Database, Users, FileCode2, CalendarRange } from 'lucide-react'
-import { getStats } from '@/lib/datasets'
+import { Database, Users, FileCode2, CalendarRange, Wifi } from 'lucide-react'
+
+interface Stats {
+  total:    number
+  creators: number
+  formats:  number
+  yearSpan: string
+}
+
+interface Props {
+  stats:       Stats
+  liveFromGeo: boolean
+}
 
 function AnimatedNumber({ target, suffix = '' }: { target: number; suffix?: string }) {
   const [value, setValue] = useState(0)
@@ -16,7 +27,7 @@ function AnimatedNumber({ target, suffix = '' }: { target: number; suffix?: stri
     const start = performance.now()
     const step = (now: number) => {
       const progress = Math.min((now - start) / duration, 1)
-      const eased = 1 - Math.pow(1 - progress, 3)
+      const eased    = 1 - Math.pow(1 - progress, 3)
       setValue(Math.floor(eased * target))
       if (progress < 1) requestAnimationFrame(step)
       else setValue(target)
@@ -27,15 +38,13 @@ function AnimatedNumber({ target, suffix = '' }: { target: number; suffix?: stri
   return <>{value}{suffix}</>
 }
 
-const stats = getStats()
+export default function Hero({ stats, liveFromGeo }: Props) {
+  const statItems = [
+    { icon: Database,     label: 'Datasets',  value: stats.total,    suffix: '',  color: 'from-indigo-500 to-violet-500' },
+    { icon: Users,        label: 'Creators',  value: stats.creators, suffix: '+', color: 'from-violet-500 to-purple-500' },
+    { icon: FileCode2,    label: 'Formats',   value: stats.formats,  suffix: '',  color: 'from-purple-500 to-violet-600' },
+  ]
 
-const statItems = [
-  { icon: Database, label: 'Datasets', value: stats.total, suffix: '', color: 'from-indigo-500 to-violet-500' },
-  { icon: Users, label: 'Creators', value: stats.creators, suffix: '+', color: 'from-violet-500 to-purple-500' },
-  { icon: FileCode2, label: 'Formats', value: stats.formats, suffix: '', color: 'from-purple-500 to-violet-600' },
-]
-
-export default function Hero() {
   return (
     <section className="relative pt-32 pb-16 px-6 overflow-hidden">
       <div className="absolute inset-0 pointer-events-none">
@@ -59,8 +68,17 @@ export default function Hero() {
           transition={{ duration: 0.5 }}
           className="inline-flex items-center gap-2 px-3 py-1.5 rounded-full glass border border-indigo-500/20 text-xs text-indigo-400 mb-6"
         >
-          <span className="w-1.5 h-1.5 rounded-full bg-indigo-400 animate-pulse" />
-          Published to Geo Knowledge Graph · Testnet
+          {liveFromGeo ? (
+            <>
+              <Wifi size={11} className="text-indigo-400" />
+              Live from Geo Knowledge Graph · Testnet
+            </>
+          ) : (
+            <>
+              <span className="w-1.5 h-1.5 rounded-full bg-indigo-400 animate-pulse" />
+              Published to Geo Knowledge Graph · Testnet
+            </>
+          )}
         </motion.div>
 
         <motion.h1
@@ -94,10 +112,7 @@ export default function Hero() {
           className="flex flex-wrap justify-center gap-4"
         >
           {statItems.map(({ icon: Icon, label, value, suffix, color }) => (
-            <div
-              key={label}
-              className="flex items-center gap-3 glass rounded-2xl px-5 py-3 border border-[#1c1c35] hover:border-indigo-500/30 transition-colors"
-            >
+            <div key={label} className="flex items-center gap-3 glass rounded-2xl px-5 py-3 border border-[#1c1c35] hover:border-indigo-500/30 transition-colors">
               <div className={`w-8 h-8 rounded-lg bg-gradient-to-br ${color} flex items-center justify-center shrink-0`}>
                 <Icon size={15} className="text-white" />
               </div>
