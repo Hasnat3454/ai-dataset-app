@@ -23,7 +23,7 @@ All Geo integration lives in [`src/lib/geo-api.ts`](src/lib/geo-api.ts).
 | API endpoint | `https://testnet-api.geobrowser.io/graphql` |
 | Space ID | `7429dfda5f14718fc6f603622bade857` |
 | Protocol | GraphQL over HTTP POST (native `fetch`) |
-| Pagination | 100 entities per page, auto-paginated |
+| Pagination | Fetches all entities automatically, batching requests until complete |
 
 ### Data flow
 
@@ -71,40 +71,6 @@ npm install
 npm run dev
 ```
 
-Open [http://localhost:3000](http://localhost:3000) in your browser.
-
-```bash
-# Build for production (static export → /out)
-npm run build
-```
-
-The static output in `/out` can be deployed to any static hosting provider (Netlify, Vercel, GitHub Pages, etc.).
-
----
-
-## Project Structure
-
-```
-src/
-├── app/
-│   ├── layout.tsx        # Root layout with Geo-referencing metadata
-│   ├── page.tsx          # Async server component — fetches from Geo, computes stats
-│   └── globals.css       # Tailwind base styles
-├── components/
-│   ├── Navbar.tsx        # Navigation bar with GeoBrowser link
-│   ├── Hero.tsx          # Animated stats + "Live from Geo" badge
-│   ├── Charts.tsx        # Year bar chart & format pie chart (client)
-│   ├── Explorer.tsx      # Search + filter shell (client)
-│   ├── SearchFilter.tsx  # Input, sort, and filter controls (client)
-│   ├── DatasetCard.tsx   # Individual dataset card (client)
-│   └── Footer.tsx        # Links to GeoBrowser and the Geo space
-├── lib/
-│   ├── geo-api.ts        # Geo GraphQL client — the entire Geo integration layer
-│   └── datasets.ts       # Dataset TypeScript type and utilities
-└── data/
-    └── ai-datasets.json  # Bundled fallback — used if Geo API is unreachable
-```
-
 ---
 
 ## Geo Space
@@ -114,8 +80,3 @@ The app reads from this specific Geo space:
 
 This space contains the AI dataset entities. Any entity in the space that has both a `name` and a `description` is treated as a dataset.
 
----
-
-## Deployment
-
-The app is pre-configured for Netlify via [`netlify.toml`](netlify.toml) and uses `output: 'export'` in [`next.config.mjs`](next.config.mjs), producing a fully static site with no server required.
